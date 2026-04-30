@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard - Lumina AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#31394d",
+                    "surface-container": "#171f33",
+                    "tertiary-fixed": "#c9e6ff",
+                    "tertiary-container": "#009ada",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "secondary": "#ddb7ff",
+                    "secondary-fixed": "#f0dbff",
+                    "on-tertiary-container": "#002d43",
+                    "primary-fixed": "#e1e0ff",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "on-tertiary": "#00344d",
+                    "on-secondary-fixed-variant": "#6900b3",
+                    "surface-variant": "#2d3449",
+                    "on-tertiary-fixed": "#001e2f",
+                    "on-tertiary-fixed-variant": "#004c6e",
+                    "on-error-container": "#ffdad6",
+                    "surface-tint": "#c0c1ff",
+                    "error-container": "#93000a",
+                    "inverse-primary": "#494bd6",
+                    "surface-container-low": "#131b2e",
+                    "primary": "#c0c1ff",
+                    "on-background": "#dae2fd",
+                    "on-surface": "#dae2fd",
+                    "tertiary-fixed-dim": "#89ceff",
+                    "surface-container-high": "#222a3d",
+                    "surface": "#0b1326",
+                    "on-surface-variant": "#c7c4d7",
+                    "outline": "#908fa0",
+                    "on-primary-fixed": "#07006c",
+                    "on-secondary-fixed": "#2c0051",
+                    "secondary-container": "#6f00be",
+                    "outline-variant": "#464554",
+                    "tertiary": "#89ceff",
+                    "inverse-surface": "#dae2fd",
+                    "primary-container": "#8083ff",
+                    "error": "#ffb4ab",
+                    "on-secondary-container": "#d6a9ff",
+                    "inverse-on-surface": "#283044",
+                    "on-error": "#690005",
+                    "secondary-fixed-dim": "#ddb7ff",
+                    "background": "#0b1326",
+                    "on-primary-container": "#0d0096",
+                    "surface-dim": "#0b1326",
+                    "on-primary": "#1000a9",
+                    "surface-container-highest": "#2d3449",
+                    "on-secondary": "#490080",
+                    "surface-container-lowest": "#060e20"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "xs": "0.5rem",
+                    "gutter": "24px",
+                    "md": "1.5rem",
+                    "sm": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "display": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "h1": [
+                            "Inter"
+                    ],
+                    "h2": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "display": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "h1": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "h2": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-sm": [
+                            "13px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex font-body-md">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-[#0F172A]/90 backdrop-blur-lg fixed left-0 top-0 h-full flex-col p-4 z-40 border-r border-slate-800/50 shadow-2xl w-64">
+<div class="flex items-center gap-3 mb-8 px-4">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome" data-weight="fill" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<div>
+<h1 class="font-display text-h2 text-primary tracking-tighter">Lumina AI</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Digital Alchemy</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-indigo-400 bg-indigo-500/10 rounded-lg border-r-2 border-indigo-500 hover:bg-indigo-500/5 transition-colors font-label-sm text-label-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg hover:bg-indigo-500/5 transition-colors font-label-sm text-label-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+                Humanizer
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg hover:bg-indigo-500/5 transition-colors font-label-sm text-label-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                History
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg hover:bg-indigo-500/5 transition-colors font-label-sm text-label-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+                Settings
+            </a>
+</div>
+<div class="mt-auto flex flex-col gap-4">
+<button class="bg-gradient-to-b from-primary to-inverse-primary text-on-primary font-label-sm text-label-sm py-3 px-4 rounded-lg shadow-[0_0_15px_rgba(73,75,214,0.3)] hover:shadow-[0_0_20px_rgba(73,75,214,0.5)] transition-shadow w-full flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" data-icon="workspace_premium">workspace_premium</span>
+                Upgrade to Pro
+            </button>
+<div class="flex flex-col gap-1 border-t border-slate-800/50 pt-4">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-colors font-label-sm text-label-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                    Help Center
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition-colors font-label-sm text-label-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Logout
+                </a>
+</div>
+</div>
+</nav>
+<div class="flex-1 flex flex-col md:ml-64 w-full min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-[#020617]/80 backdrop-blur-xl border-b border-slate-800/50 shadow-[0_4px_10px_rgba(0,0,0,0.2)] sticky top-0 w-full z-50 flex justify-between items-center px-6 h-16 md:hidden">
+<div class="flex items-center gap-2">
+<span class="text-xl font-bold bg-gradient-to-r from-indigo-500 to-violet-400 bg-clip-text text-transparent font-display">Lumina AI</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 transition-all duration-200 p-2 rounded-full active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 transition-all duration-200 p-2 rounded-full active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-slate-800/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_NM0w7M4dkgxe1Wa9XDkZ_MF0zv68UC4o58iRuNJYccRoqyoyQw92DQJRbbyJL6X1IzD7xFApbXefmuSpk5AOsY8EiO8dzlMnLAStF7ZKZEiYCxJdF4cxBVMTqcCT2QENh-MwegKhyL6o3GV3mzB4vr4Pma3yJ8RXmIosDSo2JvQANDoJ7MFEfgs3xXYM9adLdiIjmwrmaJrrEVZEfw8cf6mRLrv2mpype9atdRPKtq38ehtIK4JbLo2Q8mtLt1RAlsYNGg2N8x4"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 p-4 md:p-8 overflow-y-auto w-full max-w-container-max mx-auto space-y-8">
+<header class="mb-8">
+<h2 class="font-h1 text-h1 text-on-surface mb-2">Welcome back.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Ready to refine some text today?</p>
+</header>
+<!-- Upload Zone -->
+<section class="bg-surface-container rounded-xl border border-outline-variant p-8 shadow-[0_4px_10px_rgba(0,0,0,0.2)] backdrop-blur-md relative overflow-hidden group hover:border-primary transition-colors duration-300">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-50 z-0 pointer-events-none"></div>
+<div class="relative z-10 flex flex-col items-center justify-center text-center p-12 border-2 border-dashed border-outline-variant rounded-lg bg-surface-container-low group-hover:bg-primary/5 group-hover:border-primary/50 transition-all duration-300">
+<div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(192,193,255,0.15)] group-hover:shadow-[0_0_30px_rgba(192,193,255,0.3)] transition-shadow">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<h3 class="font-h2 text-h2 text-on-surface mb-2">Drag &amp; Drop your text file here</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 max-w-md">Or browse your device to upload. Supported formats: .txt, .docx, .md up to 50MB.</p>
+<button class="bg-surface-bright text-on-surface font-label-sm text-label-sm py-2 px-6 rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="folder_open">folder_open</span>
+                        Browse Files
+                    </button>
+</div>
+</section>
+<!-- Processing / Progress -->
+<section class="bg-surface-container rounded-xl border border-outline-variant p-6 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+<div class="flex justify-between items-center mb-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" data-icon="autorenew">autorenew</span>
+<h3 class="font-label-sm text-label-sm text-on-surface">Processing: marketing_copy_v2.docx</h3>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary">78%</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-secondary h-2 rounded-full" style="width: 78%"></div>
+</div>
+</section>
+<!-- Recent Activity Grid -->
+<section>
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-h2 text-h2 text-on-surface">Recent Activity</h3>
+<a class="text-primary hover:text-inverse-primary font-label-sm text-label-sm flex items-center gap-1 transition-colors" href="#">
+                        View All
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface-container rounded-xl border border-outline-variant p-5 hover:border-outline hover:shadow-[0_4px_15px_rgba(0,0,0,0.3)] transition-all flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="description">description</span>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-on-surface truncate w-32">q3_report_draft.txt</h4>
+<p class="font-body-md text-xs text-on-surface-variant">2 hours ago</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-surface-container-high text-on-surface-variant text-xs rounded-full border border-outline-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+                                Completed
+                            </span>
+</div>
+<div class="pt-4 border-t border-outline-variant flex justify-between items-center">
+<div class="flex items-center gap-1 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]" data-icon="group">group</span>
+                                Humanized: 92%
+                            </div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container rounded-xl border border-outline-variant p-5 hover:border-outline hover:shadow-[0_4px_15px_rgba(0,0,0,0.3)] transition-all flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="article">article</span>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-on-surface truncate w-32">blog_post_ai.md</h4>
+<p class="font-body-md text-xs text-on-surface-variant">Yesterday</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-surface-container-high text-on-surface-variant text-xs rounded-full border border-outline-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+                                Completed
+                            </span>
+</div>
+<div class="pt-4 border-t border-outline-variant flex justify-between items-center">
+<div class="flex items-center gap-1 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]" data-icon="group">group</span>
+                                Humanized: 88%
+                            </div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container rounded-xl border border-outline-variant p-5 hover:border-outline hover:shadow-[0_4px_15px_rgba(0,0,0,0.3)] transition-all flex flex-col gap-4 opacity-75">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="error">error</span>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-on-surface truncate w-32">corrupted_data.txt</h4>
+<p class="font-body-md text-xs text-on-surface-variant">2 days ago</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-error-container text-on-error-container text-xs rounded-full border border-error/30 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error inline-block"></span>
+                                Failed
+                            </span>
+</div>
+<div class="pt-4 border-t border-outline-variant flex justify-between items-center">
+<div class="flex items-center gap-1 text-xs text-error">
+                                Format unsupported
+                            </div>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors p-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="refresh">refresh</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

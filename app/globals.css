@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+}
+
+.glow-border {
+  box-shadow: 0 0 15px -3px rgba(128, 131, 255, 0.3);
+  border-color: rgba(128, 131, 255, 0.4);
+}
