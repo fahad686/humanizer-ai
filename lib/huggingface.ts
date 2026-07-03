@@ -1,3 +1,6 @@
+import { hfModelUrl } from '@/lib/hf-endpoints';
+import type { HumanizeMode } from '@/types';
+
 export type HuggingFaceParaphraseParams = {
   max_length?: number;
   num_beams?: number;
@@ -24,18 +27,6 @@ function isValidModelId(model: string) {
   if (trimmed.includes(' ')) return false;
   // allow org/model, model, and common HF characters
   return /^[A-Za-z0-9_.-]+(\/[A-Za-z0-9_.-]+)?$/.test(trimmed);
-}
-
-function toSafeModelPath(model: string) {
-  return model
-    .split('/')
-    .map((seg) => encodeURIComponent(seg))
-    .join('/');
-}
-
-function getEndpoint(model: string) {
-  const safePath = toSafeModelPath(model);
-  return `https://api-inference.huggingface.co/models/${safePath}`;
 }
 
 function sleep(ms: number) {
@@ -71,6 +62,84 @@ function extractGeneratedText(data: unknown): string | null {
   return null;
 }
 
+function humanizePrompt(text: string, mode: HumanizeMode = 'conversational') {
+  const style =
+    mode === 'formal'
+      ? 'formal, professional, and precise'
+      : mode === 'simple'
+        ? 'simple, clear, and easy to read'
+        : 'conversational, natural, and friendly';
+
+  return `Rewrite the following text in a ${style} way.
+Keep the same meaning. Avoid robotic or AI-like phrasing.
+Keep important facts, names, and numbers unchanged.
+Return ONLY the rewritten text.
+
+Text:
+${text}`;
+}
+
+type ChatCompletionResponse = {
+  choices?: Array<{ message?: { content?: string } }>;
+  error?: { message?: string };
+};
+
+async function postToChat({
+  apiKey,
+  model,
+  prompt,
+  signal
+}: {
+  apiKey: string;
+  model: string;
+  prompt: string;
+  signal: AbortSignal;
+}) {
+  const res = await fetch('https://router.huggingface.co/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model,
+      messages: [{ role: 'user', content: prompt }],
+      max_tokens: 512,
+      temperature: 0.7
+    }),
+    signal
+  });
+
+  const raw = await res.text();
+  let json: ChatCompletionResponse | null = null;
+  try {
+    json = raw ? (JSON.parse(raw) as ChatCompletionResponse) : null;
+  } catch {
+    json = null;
+  }
+
+  if (!res.ok) {
+    return {
+      ok: false as const,
+      status: res.status,
+      retryAfterMs: res.status === 429 ? 1500 : res.status === 503 ? 1200 : null,
+      error: json?.error?.message || raw.slice(0, 220) || 'Chat completion failed'
+    };
+  }
+
+  const text = json?.choices?.[0]?.message?.content?.trim();
+  if (!text) {
+    return {
+      ok: false as const,
+      status: res.status,
+      retryAfterMs: null,
+      error: 'Empty chat completion response'
+    };
+  }
+
+  return { ok: true as const, text };
+}
+
 async function postToModel({
   apiKey,
   model,
@@ -88,7 +157,7 @@ async function postToModel({
     throw new Error(`Invalid HF model id: ${model}`);
   }
 
-  const url = getEndpoint(model);
+  const url = hfModelUrl(model);
 
   const res = await fetch(url, {
     method: 'POST',
@@ -176,7 +245,16 @@ async function postToModel({
     };
   }
 
-  return { ok: true as const, text: text.trim() };
+  return { ok: true as const, text: cleanParaphraseOutput(text.trim(), inputText) };
+}
+
+function cleanParaphraseOutput(text: string, inputText: string): string {
+  let out = text.trim();
+  if (out.toLowerCase().startsWith('paraphrase:')) {
+    out = out.slice('paraphrase:'.length).trim();
+  }
+  if (out === inputText.trim()) return out;
+  return out;
 }
 
 export async function paraphraseWithFallback({
@@ -184,16 +262,40 @@ export async function paraphraseWithFallback({
   apiKey,
   signal,
   params,
-  models
+  models,
+  mode = 'conversational'
 }: {
   text: string;
   apiKey: string;
   signal: AbortSignal;
   params?: HuggingFaceParaphraseParams;
   models?: string[];
+  mode?: HumanizeMode;
 }) {
   const cleaned = String(text || '').trim();
   if (!cleaned) throw new Error('Text is required');
+
+  const chatModels = [
+    process.env.HF_CHAT_MODEL_PRIMARY || 'openai/gpt-oss-20b',
+    process.env.HF_CHAT_MODEL_FALLBACK || 'openai/gpt-oss-120b'
+  ].filter(Boolean);
+
+  let lastErr: string | null = null;
+  const prompt = humanizePrompt(cleaned, mode);
+
+  for (const model of chatModels) {
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      const r = await postToChat({ apiKey, model, prompt, signal });
+      if (r.ok) return { model, text: r.text };
+
+      lastErr = `model=${model} status=${r.status} error=${r.error}`;
+      if (r.retryAfterMs && attempt < 2) {
+        await sleep(r.retryAfterMs);
+        continue;
+      }
+      break;
+    }
+  }
 
   const finalParams: Required<HuggingFaceParaphraseParams> = {
     max_length: params?.max_length ?? 256,
@@ -209,8 +311,6 @@ export async function paraphraseWithFallback({
         process.env.HF_MODEL_FALLBACK_2 || 'Vamsi/T5_Paraphrase_Paws'
       ]
   ).filter(Boolean);
-
-  let lastErr: string | null = null;
 
   for (const model of modelList) {
     for (let attempt = 1; attempt <= 3; attempt++) {

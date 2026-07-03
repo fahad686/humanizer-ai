@@ -35,12 +35,12 @@ export function UploadDropzone({
   );
 
   return (
-    <section className="bg-surface-container rounded-xl border border-outline-variant p-8 shadow-[0_4px_10px_rgba(0,0,0,0.2)] backdrop-blur-md relative overflow-hidden group hover:border-primary transition-colors duration-300">
+    <section className="bg-surface-container rounded-xl border border-outline-variant p-4 sm:p-8 shadow-[0_4px_10px_rgba(0,0,0,0.2)] backdrop-blur-md relative overflow-hidden group hover:border-primary transition-colors duration-300">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-50 z-0 pointer-events-none" />
 
       <div
         className={cn(
-          'relative z-10 flex flex-col items-center justify-center text-center p-12 border-2 border-dashed rounded-lg transition-all duration-300',
+          'relative z-10 flex flex-col items-center justify-center text-center p-6 sm:p-12 border-2 border-dashed rounded-lg transition-all duration-300',
           dragOver
             ? 'border-primary/60 bg-primary/5 shadow-[0_0_30px_rgba(192,193,255,0.25)]'
             : 'border-outline-variant bg-surface-container-low group-hover:bg-primary/5 group-hover:border-primary/50'

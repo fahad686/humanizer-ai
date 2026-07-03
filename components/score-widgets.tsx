@@ -6,17 +6,17 @@ export function RingGauge({ score }: { score: number }) {
   const dash = Math.max(0, Math.min(100, score));
 
   return (
-    <div className="glass-panel rounded-xl p-6 flex items-center justify-between shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-      <div>
+    <div className="glass-panel rounded-xl p-4 sm:p-6 flex items-center justify-between shadow-[0_4px_10px_rgba(0,0,0,0.2)] gap-4">
+      <div className="min-w-0">
         <h3 className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">
           Human Confidence
         </h3>
-        <div className="font-display text-display text-primary flex items-baseline gap-1">
+        <div className="font-display text-3xl sm:text-display text-primary flex items-baseline gap-1">
           {dash}
-          <span className="text-2xl text-on-surface-variant">%</span>
+          <span className="text-xl sm:text-2xl text-on-surface-variant">%</span>
         </div>
       </div>
-      <div className="relative w-20 h-20 flex items-center justify-center">
+      <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center shrink-0">
         <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
           <path
             className="text-surface-container-high stroke-current"
@@ -56,10 +56,10 @@ export function BarCard({
   const safe = Math.max(0, Math.min(100, value));
 
   return (
-    <div className="glass-panel rounded-xl p-6 flex flex-col justify-center shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-      <div className="flex justify-between items-center mb-4">
-        <span className="font-label-sm text-label-sm text-on-surface-variant">{title}</span>
-        <span className={cn('font-h2 text-h2', color === 'error' ? 'text-error' : 'text-tertiary')}>
+    <div className="glass-panel rounded-xl p-4 sm:p-6 flex flex-col justify-center shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+      <div className="flex justify-between items-center mb-3 sm:mb-4 gap-2">
+        <span className="font-label-sm text-label-sm text-on-surface-variant truncate">{title}</span>
+        <span className={cn('font-h2 text-lg sm:text-h2 shrink-0', color === 'error' ? 'text-error' : 'text-tertiary')}>
           {color === 'tertiary' ? `+${safe}%` : `${safe}%`}
         </span>
       </div>
